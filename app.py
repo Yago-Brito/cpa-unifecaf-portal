@@ -12,7 +12,7 @@ st.markdown("""
     /* Fundo Escuro e Gradiente */
     .stApp {
         background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
-                    url("NOME_DA_SUA_FOTO.jpg"); /* <--- COLOQUE O NOME DO SEU ARQUIVO AQUI */
+                    url("fundo.jpg");
         background-size: cover;
         background-attachment: fixed;
         color: #F8FAFC;
@@ -54,7 +54,7 @@ if 'curso' not in st.session_state:
 
 if st.session_state.tela == 'home':
     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
-    st.image("NOME_DA_SUA_LOGO.png", width=120) # <--- LOGO MENOR E NOME CORRETO AQUI
+    st.image("logo.png", width=120)
     st.markdown('</div>', unsafe_allow_html=True)
     
     st.markdown("<h1 style='text-align: center;'>PORTAL DE GESTÃO CPA</h1>", unsafe_allow_html=True)
