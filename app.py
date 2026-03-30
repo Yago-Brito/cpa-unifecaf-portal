@@ -12,7 +12,7 @@ st.markdown("""
     /* Fundo Escuro e Gradiente */
     .stApp {
         background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
-                    url("fundo");
+                    url("fundo.png");
         background-size: cover;
         background-attachment: fixed;
         color: #F8FAFC;
