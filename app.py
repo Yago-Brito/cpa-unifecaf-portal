@@ -30,7 +30,7 @@ if st.session_state.tela == 'home':
         </style>
     """, unsafe_allow_html=True)
     
-    st.image("SUA_LOGO_AQUI", width=200)
+    st.image("logo.png", width=200)
     st.title("BEM-VINDO AO PORTAL DE MELHORIA CPA")
     st.subheader("A voz do aluno transformando a UniFECAF")
     
