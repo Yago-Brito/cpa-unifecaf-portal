@@ -23,7 +23,7 @@ if st.session_state.tela == 'home':
     st.markdown("""
         <style>
         .stApp {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("SUA_FOTO_DA_FACULDADE_AQUI");
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("fachada.jpg");
             background-size: cover;
             color: white;
         }
