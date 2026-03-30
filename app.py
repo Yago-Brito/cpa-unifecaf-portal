@@ -57,7 +57,7 @@ if st.session_state.tela == 'home':
     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
     # Tenta carregar a logo, se não existir mostra apenas o texto
     try:
-        st.image("logo.png", width=150)
+        st.image("logo.png", width=100)
     except:
         st.subheader("UniFECAF")
     st.markdown('</div>', unsafe_allow_html=True)
