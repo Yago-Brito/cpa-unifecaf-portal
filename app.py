@@ -37,24 +37,31 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Conexão Direta (Bypass de Secrets para teste)
-URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1-OnDW-Zt9g535KuyfNTblw1ZWQ3ZlFTnZgg5QJlVQts/edit?usp=sharing"
+# 2. Conexão Robusta (Método CSV)
+# Esse é o ID da sua planilha que peguei do seu link
+SHEET_ID = "1-OnDW-Zt9g535KuyfNTblw1ZWQ3ZlFTnZgg5QJlVQts"
+SHEET_NAME = "Agrupamento"
+# Geramos um link de exportação direta que o Google não bloqueia
+url_csv = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
 
 try:
-    conn = st.connection("gsheets", type=GSheetsConnection)
-    # Forçamos a leitura passando a URL diretamente no comando
-    df_cursos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Agrupamento")
+    # Lendo os dados diretamente como um arquivo CSV
+    df_cursos = pd.read_csv(url_csv)
     
-    # Limpeza de dados (Garante que ele ignore colunas vazias)
+    # Limpeza básica de colunas vazias
     df_cursos = df_cursos.dropna(how='all', axis=1).dropna(how='all', axis=0)
     
+    # Verifica se a coluna existe (independente de estar na A1 ou B1)
     if 'Curso' in df_cursos.columns:
         lista_cursos = sorted(df_cursos['Curso'].unique().tolist())
     else:
-        lista_cursos = [f"Coluna 'Curso' não encontrada. Colunas lidas: {list(df_cursos.columns)}"]
+        # Se ele não achar 'Curso', ele vai listar o que ele encontrou para a gente ver
+        colunas_encontradas = ", ".join(df_cursos.columns)
+        lista_cursos = [f"ERRO: Coluna 'Curso' não achada. Colunas: {colunas_encontradas}"]
+        
 except Exception as e:
-    st.error(f"Erro na conexão direta: {e}")
-    lista_cursos = ["Erro de conexão"]
+    st.error(f"Falha crítica na leitura: {e}")
+    lista_cursos = ["Erro de conexão com os dados"]
 
 # 3. Gerenciamento de Navegação
 if 'tela' not in st.session_state:
