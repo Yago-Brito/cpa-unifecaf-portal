@@ -37,15 +37,24 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Conexão com a Planilha (MODO DIAGNÓSTICO)
+# 2. Conexão Direta (Bypass de Secrets para teste)
+URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1-OnDW-Zt9g535KuyfNTblw1ZWQ3ZlFTnZgg5QJlVQts/edit?usp=sharing"
+
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
-    # Lendo a aba Agrupamento
-    df_cursos = conn.read(worksheet="Agrupamento")
-    lista_cursos = sorted(df_cursos['Curso'].unique().tolist())
+    # Forçamos a leitura passando a URL diretamente no comando
+    df_cursos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Agrupamento")
+    
+    # Limpeza de dados (Garante que ele ignore colunas vazias)
+    df_cursos = df_cursos.dropna(how='all', axis=1).dropna(how='all', axis=0)
+    
+    if 'Curso' in df_cursos.columns:
+        lista_cursos = sorted(df_cursos['Curso'].unique().tolist())
+    else:
+        lista_cursos = [f"Coluna 'Curso' não encontrada. Colunas lidas: {list(df_cursos.columns)}"]
 except Exception as e:
-    # ISSO VAI MOSTRAR O ERRO REAL NA TELA DO SITE
-    lista_cursos = [f"ERRO TÉCNICO: {str(e)}"]
+    st.error(f"Erro na conexão direta: {e}")
+    lista_cursos = ["Erro de conexão"]
 
 # 3. Gerenciamento de Navegação
 if 'tela' not in st.session_state:
