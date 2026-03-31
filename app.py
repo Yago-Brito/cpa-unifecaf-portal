@@ -37,13 +37,15 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Conexão com a Planilha
+# 2. Conexão com a Planilha (MODO DIAGNÓSTICO)
 try:
     conn = st.connection("gsheets", type=GSheetsConnection)
+    # Lendo a aba Agrupamento
     df_cursos = conn.read(worksheet="Agrupamento")
     lista_cursos = sorted(df_cursos['Curso'].unique().tolist())
-except:
-    lista_cursos = ["Aguardando conexão com a planilha..."]
+except Exception as e:
+    # ISSO VAI MOSTRAR O ERRO REAL NA TELA DO SITE
+    lista_cursos = [f"ERRO TÉCNICO: {str(e)}"]
 
 # 3. Gerenciamento de Navegação
 if 'tela' not in st.session_state:
